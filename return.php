@@ -32,29 +32,26 @@
                     if(isset($_POST['submit'])) {
                         $loan_id = $_POST['loan_id'];
 
-                        // 1. Pehle check karo ki ye Loan ID exist karti hai ya nahi aur return ho chuki hai ya nahi
+                        // Check if Loan ID exists
                         $check_sql = "SELECT return_date, copy_id FROM loan WHERE loan_id = $loan_id";
                         $check_result = $conn->query($check_sql);
 
                         if ($check_result->num_rows == 0) {
-                            echo "<div class='alert alert-danger mt-3'><b>Error:</b> Ye Loan ID ($loan_id) database mein nahi mili.</div>";
+                            echo "<div class='alert alert-danger mt-3'><b>Error:</b> Loan ID ($loan_id) not found in the database.</div>";
                         } else {
                             $loan_data = $check_result->fetch_assoc();
                             
                             if ($loan_data['return_date'] != NULL) {
-                                echo "<div class='alert alert-warning mt-3'><b>Warning:</b> Ye book pehle hi return ho chuki hai.</div>";
+                                echo "<div class='alert alert-warning mt-3'><b>Warning:</b> This book has already been returned.</div>";
                             } else {
-                                // Book return karne ka process
+                                // Process return
                                 $copy_id = $loan_data['copy_id'];
                                 
-                                // Return Date update karo
                                 $return_sql = "UPDATE loan SET return_date = CURDATE() WHERE loan_id = $loan_id";
-                                
-                                // Book Status wapas Available karo
                                 $update_book_sql = "UPDATE book_copy SET status = 'Available' WHERE copy_id = $copy_id";
 
                                 if ($conn->query($return_sql) === TRUE && $conn->query($update_book_sql) === TRUE) {
-                                    echo "<div class='alert alert-success mt-3'><b>Success:</b> Book successfully return ho gayi!</div>";
+                                    echo "<div class='alert alert-success mt-3'><b>Success:</b> Book returned successfully!</div>";
                                 } else {
                                     echo "<div class='alert alert-danger mt-3'><b>Database Error:</b> " . $conn->error . "</div>";
                                 }
