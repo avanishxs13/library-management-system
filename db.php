@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $user = "root";
-$pass = ""; // XAMPP mein by default password khali hota hai
+$pass = "";
 $dbname = "library_db";
 
 $conn = new mysqli($host, $user, $pass, $dbname);

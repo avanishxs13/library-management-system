@@ -32,7 +32,7 @@
                     if(isset($_POST['submit'])) {
                         $loan_id = $_POST['loan_id'];
 
-                        // Check if Loan ID exists
+                       
                         $check_sql = "SELECT return_date, copy_id FROM loan WHERE loan_id = $loan_id";
                         $check_result = $conn->query($check_sql);
 
@@ -44,7 +44,7 @@
                             if ($loan_data['return_date'] != NULL) {
                                 echo "<div class='alert alert-warning mt-3'><b>Warning:</b> This book has already been returned.</div>";
                             } else {
-                                // Process return
+                              
                                 $copy_id = $loan_data['copy_id'];
                                 
                                 $return_sql = "UPDATE loan SET return_date = CURDATE() WHERE loan_id = $loan_id";

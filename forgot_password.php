@@ -6,7 +6,7 @@ $step = 1;
 $username = '';
 $question = '';
 
-// Step 1: Check if username exists
+
 if(isset($_POST['check_user'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $sql = "SELECT * FROM admin WHERE username = '$username'";
@@ -14,26 +14,26 @@ if(isset($_POST['check_user'])) {
     
     if ($result->num_rows > 0) {
         $admin = $result->fetch_assoc();
-        $question = $admin['security_question']; // Fetch question from DB
+        $question = $admin['security_question']; 
         $step = 2; 
     } else {
         echo "<script>alert('Username not found!');</script>";
     }
 }
 
-// Step 2: Verify Answer and Reset Password
+
 if(isset($_POST['verify_answer'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $answer = mysqli_real_escape_string($conn, $_POST['answer']);
     $new_password = mysqli_real_escape_string($conn, $_POST['new_password']);
-    $question = $_POST['question']; // Keep question visible
+    $question = $_POST['question']; 
 
-    // Check answer
+    
     $sql = "SELECT * FROM admin WHERE username = '$username' AND security_answer = '$answer'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        // Answer correct, update password
+        
         $update_sql = "UPDATE admin SET password = '$new_password' WHERE username = '$username'";
         if ($conn->query($update_sql) === TRUE) {
             echo "<script>alert('Password reset successfully! Please login.'); window.location.href='login.php';</script>";
@@ -42,7 +42,7 @@ if(isset($_POST['verify_answer'])) {
         }
     } else {
         echo "<script>alert('Incorrect answer! Try again.');</script>";
-        $step = 2; // Stay on step 2
+        $step = 2; 
     }
 }
 ?>

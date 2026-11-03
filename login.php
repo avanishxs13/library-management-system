@@ -2,7 +2,7 @@
 session_start();
 include 'db.php'; 
 
-// Agar pehle se login hai, toh seedha dashboard par bhej do
+
 if(isset($_SESSION['admin_logged_in'])) {
     header("Location: admin_dashboard.php");
     exit();
